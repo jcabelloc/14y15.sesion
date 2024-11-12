@@ -60,11 +60,12 @@ exports.postCrearProducto = (req, res, next) => {
 
     const producto = new Producto({
         // _id: new mongoose.Types.ObjectId('672c1d0333c24b7bc6512672'),
-        nombre: nombre, 
-        precio: precio, 
-        descripcion: descripcion, 
-        urlImagen: urlImagen, 
-        idUsuario: req.usuario._id });
+        nombre: nombre,
+        precio: precio,
+        descripcion: descripcion,
+        urlImagen: urlImagen,
+        idUsuario: req.usuario._id
+    });
     producto.save()
         .then(result => {
             res.redirect('/admin/productos');
@@ -157,19 +158,30 @@ exports.postEditarProducto = (req, res, next) => {
 
 
 exports.getProductos = (req, res, next) => {
-    Producto.find()
+    //Producto.find()
+    Producto.find({ idUsuario: req.idUsuario})
         .then(productos => {
+            res
+                .status(200)
+                .json(
+                    {
+                        prods: productos,
+                        mensaje: 'Se proceso con exito'
+                    }
+                )
+            /*
             res.render('admin/productos', {
                 prods: productos,
                 titulo: "Administracion de Productos",
                 path: "/admin/productos",
                 autenticado: req.session.autenticado
-            });
+            });*/
         })
         .catch(err => {
-            const error = new Error(err);
-            error.httpStatusCode = 500;
-            return next(error);
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err)
         });
 };
 
@@ -179,7 +191,7 @@ exports.postEliminarProducto = (req, res, next) => {
 
     Producto.findById(idProducto)
         .then(producto => {
-            if(!producto) {
+            if (!producto) {
                 return next(new Error('Producto no se ha encontrado'));
             }
             file.deleteFile(producto.urlImagen);
@@ -201,19 +213,19 @@ exports.postEliminarProducto = (req, res, next) => {
 exports.deleteProducto = (req, res, next) => {
     const idProducto = req.params.idProducto;
     Producto.findById(idProducto)
-      .then(producto => {
-        if (!producto) {
-          return next(new Error('Producto no encontrado'));
-        }
-        file.deleteFile(producto.urlImagen);
-        return Producto.deleteOne({ _id: idProducto, idUsuario: req.usuario._id });
-      })
-      .then(() => {
-        console.log('PRODUCTO ELIMINADO');
-        res.status(200).json({ message: 'Exitoso' });
-      })
-      .catch(err => {
-        res.status(500).json({ message: 'Eliminacion del producto fallo' });
-      });
-  };
+        .then(producto => {
+            if (!producto) {
+                return next(new Error('Producto no encontrado'));
+            }
+            file.deleteFile(producto.urlImagen);
+            return Producto.deleteOne({ _id: idProducto, idUsuario: req.usuario._id });
+        })
+        .then(() => {
+            console.log('PRODUCTO ELIMINADO');
+            res.status(200).json({ message: 'Exitoso' });
+        })
+        .catch(err => {
+            res.status(500).json({ message: 'Eliminacion del producto fallo' });
+        });
+};
 
