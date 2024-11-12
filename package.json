@@ -1,0 +1,42 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "Proyecto para la sesion 03",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jcabelloc/back-end-sesion3.git"
+  },
+  "author": "Juan Cabello",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jcabelloc/back-end-sesion3/issues"
+  },
+  "homepage": "https://github.com/jcabelloc/back-end-sesion3#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.3",
+    "connect-flash": "^0.1.1",
+    "connect-mongodb-session": "^5.0.0",
+    "csurf": "^1.11.0",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "express-validator": "^7.2.0",
+    "mongodb": "^6.10.0",
+    "mongoose": "^8.7.3",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.11.3",
+    "nodemailer": "^6.9.16",
+    "nodemailer-sendgrid-transport": "^0.2.0",
+    "pdfkit": "^0.15.1",
+    "sequelize": "^6.37.4"
+  }
+}
